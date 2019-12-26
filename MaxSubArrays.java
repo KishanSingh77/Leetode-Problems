@@ -5,7 +5,7 @@ import java.util.HashMap;
 /*
  * 
  * 1. Max sub array having sum k ..... Solution using hashmap
- * 2. Max sub array having sum >= k....Sliding window approach..having left initlizat to zero..
+ * 2. Minimun sub array having sum >= k....Sliding window approach..having left initlizat to zero..
  * 3. Max sub array [ longest ] sum
  * 4. Max/Min sub array having size k
  */
@@ -26,6 +26,11 @@ public class MaxSubArrays {
 		
 		System.out.println("\nMaximum sum with given window size k "+ms_havingSubArrayOfSizeK(array2,ksize));
 		
+		int[] array3=new int[] {2,3,1,2,4,3};
+		int s=7;
+		
+		System.out.println("\n Minimum sum sub array with sum >=s" +min_sum_K(array3,s));
+	
 	}
 	
 	// 1. Max sub array having sum k
@@ -51,6 +56,26 @@ public class MaxSubArrays {
 			}
 		}
 		return ans != Integer.MIN_VALUE ? ans : 0;
+	}
+	
+	private static int min_sum_K(int[] nums,int k) {
+		
+		int n=nums.length;
+		if(n==0) {
+			return 0;
+		}
+		int left=0;
+		int ans=Integer.MAX_VALUE;
+		int sum=0;
+		for(int i=0;i<nums.length;i++) {
+			sum += nums[i];
+			while(sum >=k) {
+				ans = Math.min(ans,i+1-left);
+				sum -= nums[left];
+				left++;
+			}
+		}
+		return ans != Integer.MAX_VALUE ? ans: 0;
 	}
 	
 	// 3. 
@@ -88,6 +113,7 @@ public class MaxSubArrays {
 			cur_sum += nums[i] - nums[i-k];
 			res = Math.max(res,cur_sum);
 		}
+		
 		return res;
 	}
 }
